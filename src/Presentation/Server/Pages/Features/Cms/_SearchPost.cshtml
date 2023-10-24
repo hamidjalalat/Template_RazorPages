@@ -1,0 +1,51 @@
+﻿@model ViewModels.Pages.Features.Cms.SearchPostViewModel
+
+<div class="accordion" id="accordionSearch">
+
+	<div class="accordion-item">
+
+		<h2 class="accordion-header">
+			<button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+				@(Resources.DataDictionary.Search)
+			</button>
+		</h2>
+
+		<div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionSearch">
+			<div class="accordion-body">
+
+				<div class="row mb-4">
+					<div class="col">
+						<label asp-for="TypeId" class="form-label"></label>
+						<select asp-for="TypeId" asp-items="Model.TypesSelectList" class="form-select"></select>
+						<span asp-validation-for="TypeId" class="text-danger"></span>
+					</div>
+
+					<div class="col">
+						<label asp-for="CategoryId" class="form-label"></label>
+						<select asp-for="CategoryId" asp-items="Model.CategoriesSelectList" class="form-select"></select>
+						<span asp-validation-for="CategoryId" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="row mb-4">
+					<div class="col">
+						<label asp-for="Body" class="form-label"></label>
+						<input asp-for="Body" class="form-control" />
+						<span asp-validation-for="Body" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col">
+						<button type="submit" class="btn btn-primary" asp-page-handler="GoToFirst">
+							<i class="bi bi-search"></i>
+							@(Resources.DataDictionary.Search)
+						</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</div>

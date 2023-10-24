@@ -1,0 +1,26 @@
+﻿@page
+
+@model Server.Pages.Account.AccessDeniedModel
+
+@{
+	var pageTitle =
+		Resources.PageTitles.AccessDenied;
+
+	ViewData[Constants.ViewDataKeyName.PageTitle] = pageTitle;
+}
+
+<section-page-header>
+	@(pageTitle)
+</section-page-header>
+
+<div class="row">
+	<div class="col">
+		<div class="alert alert-danger mb-0 pb-0">
+			<ul>
+				<li>
+					@(Resources.Messages.Errors.AccessDenied)
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>

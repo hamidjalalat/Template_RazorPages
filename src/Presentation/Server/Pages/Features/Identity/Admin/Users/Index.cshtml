@@ -1,0 +1,167 @@
+﻿@page
+
+@model Server.Pages.Features.Identity.Admin.Users.IndexModel
+
+@{
+	var pageTitle =
+		$"{Resources.DataDictionary.ListOf} {Resources.DataDictionary.Users}";
+
+	ViewData[Constants.ViewDataKeyName.PageTitle] = pageTitle;
+
+	var currentUICultureName = Domain.Features
+		.Common.CultureEnumHelper.GetCurrentUICultureName();
+}
+
+<section-page-header>
+	@(pageTitle)
+</section-page-header>
+
+<section-page-actions>
+	<a asp-page="Create">
+		@(Html.DtatGetLinkCaptionForCreate())
+	</a>
+</section-page-actions>
+
+<partial name="PartialViews/_DisplayPageMessages" />
+
+<form id="myForm" method="post">
+
+	<partial name="PartialViews/_Sorting" for="ViewModel.Sorting" />
+
+	<partial name="_Search" for="ViewModel.Search" />
+
+	<section-table>
+		<table>
+			<caption>
+				@(pageTitle)
+			</caption>
+
+			<thead>
+				<tr>
+					<th>
+						@(Resources.DataDictionary.RowNumber)
+					</th>
+					<th>
+					</th>
+					<th>
+						@(Resources.DataDictionary.IsActive)
+					</th>
+					<th>
+						@(Resources.DataDictionary.IsFeatured)
+					</th>
+					<th>
+						@(Resources.DataDictionary.IsVerifiedInBrief)
+					</th>
+					<th>
+						@(Resources.DataDictionary.IsDeletedInBrief)
+					</th>
+					<th>
+						@(Resources.DataDictionary.EmailAddressInBrief)
+					</th>
+					<th>
+						@(Resources.DataDictionary.Role)
+					</th>
+					<th>
+						@(Resources.DataDictionary.FullName)
+					</th>
+					<th>
+						@(Resources.DataDictionary.Username)
+					</th>
+					<th>
+						@(Resources.DataDictionary.CellPhoneNumberInBrief)
+					</th>
+					<th>
+						@(Resources.DataDictionary.Posts)
+					</th>
+					<th>
+						@(Resources.DataDictionary.Comments)
+					</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				@for (var index = 0; index <= Model.ViewModel.Items.Count - 1; index++)
+				{
+					var item = Model.ViewModel.Items[index];
+
+					<tr>
+						@(Html.DtatDisplayRowNumberWithTd(value: index + 1))
+
+						<table-actions>
+							<a asp-page="Details" asp-route-id="@(item.Id)">
+								@(Html.DtatGetIconDetails())
+							</a>
+							<a asp-page="Update" asp-route-id="@(item.Id)">
+								@(Html.DtatGetIconUpdate())
+							</a>
+							<a asp-page="Delete" asp-route-id="@(item.Id)">
+								@(Html.DtatGetIconDelete())
+							</a>
+						</table-actions>
+
+						@(Html.DtatDisplayBooleanWithTd(value: item.IsActive))
+
+						@(Html.DtatDisplayBooleanWithTd(value: item.IsFeatured))
+
+						@(Html.DtatDisplayBooleanWithTd(value: item.IsVerified))
+
+						@(Html.DtatDisplayBooleanWithTd(value: item.IsDeleted))
+
+						<td dir="ltr">
+							@(Html.DtatDisplayInlineBoolean
+								(value: item.IsEmailAddressVerified))
+
+							@(item.EmailAddress)
+						</td>
+
+						@(Html.DtatDisplayStringWithTd(value: item.RoleTitle))
+
+						@*@(Html.DtatDisplayStringWithTd(value: item.FullName))*@
+
+						<td>
+							@if (string.IsNullOrWhiteSpace(value: item.FirstName) == false ||
+									string.IsNullOrWhiteSpace(value: item.LastName) == false)
+							{
+								@(item.GenderPrefix)
+								<text>&nbsp;</text>
+								@(item.FirstName)
+								<text>&nbsp;</text>
+								@(item.LastName)
+							}
+							else
+							{
+								<i class="bi bi-patch-question"></i>
+							}
+						</td>
+
+						<td dir="ltr">
+							@if (string.IsNullOrWhiteSpace(value: item.Username) == false)
+							{
+								<a href="/profile/@(currentUICultureName)/@(item.Username)">
+									@(item.Username)
+								</a>
+							}
+						</td>
+
+						<td dir="ltr">
+							@if (string.IsNullOrWhiteSpace(value: item.CellPhoneNumber) == false)
+							{
+								@(Html.DtatDisplayInlineBoolean
+									(value: item.IsCellPhoneNumberVerified))
+
+								@(item.CellPhoneNumber)
+							}
+						</td>
+
+						@(Html.DtatDisplayIntegerWithTd(value: item.PostCount))
+
+						@(Html.DtatDisplayIntegerWithTd(value: item.CommentCount))
+					</tr>
+				}
+			</tbody>
+		</table>
+	</section-table>
+
+	<partial name="PartialViews/_Pagination" for="ViewModel.Pagination" />
+
+</form>

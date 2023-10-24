@@ -1,0 +1,110 @@
+﻿@page "/post/{culture?}/{id?}"
+
+@model Server.Pages.Features.Cms.PostModel
+
+@{
+	ViewData[Constants.ViewDataKeyName.PageTitle] = Model.ViewModel.Title;
+	ViewData[Constants.ViewDataKeyName.PageAuthor] = Model.ViewModel.Author;
+	ViewData[Constants.ViewDataKeyName.PageImageUrl] = Model.ViewModel.ImageUrl;
+	ViewData[Constants.ViewDataKeyName.PageDescription] = Model.ViewModel.Description;
+
+	var currentUICultureName = Domain.Features
+		.Common.CultureEnumHelper.GetCurrentUICultureName();
+}
+
+@if (string.IsNullOrWhiteSpace(value: Model.ViewModel.CoverImageUrl) == false)
+{
+	<div class="row">
+		<div class="col">
+			<img src="@(Model.ViewModel.CoverImageUrl)" alt="@(Model.ViewModel.Title)" class="img-fluid">
+		</div>
+	</div>
+}
+
+<div class="row mt-3">
+	<div class="col-lg-9">
+
+		@if (string.IsNullOrWhiteSpace(value: Model.ViewModel.MovieUrl) == false)
+		{
+			<div class="row">
+				<div class="col">
+					<video controls style="width: 100%;height: auto;">
+						<source src="@(Model.ViewModel.MovieUrl)" type="video/mp4" />
+						Your browser does not support the video tag.
+					</video>
+				</div>
+			</div>
+
+			<div class="row mt-3">
+				<div class="col">
+					@(Html.Raw(Model.ViewModel.Body))
+				</div>
+			</div>
+		}
+		else
+		{
+			@(Html.Raw(Model.ViewModel.Body))
+		}
+
+		<hr />
+
+		@if (string.IsNullOrWhiteSpace(value: Model.ViewModel.TypeName) == false)
+		{
+			if (string.IsNullOrWhiteSpace(value: Model.ViewModel.TypeTitle) == false)
+			{
+				<a href="/Type/@(currentUICultureName)/@(Model.ViewModel.TypeName)" class="btn btn-primary btn-sm">
+					@(Model.ViewModel.TypeTitle)
+				</a>
+			}
+		}
+
+		@if (string.IsNullOrWhiteSpace(value: Model.ViewModel.CategoryName) == false)
+		{
+			if (string.IsNullOrWhiteSpace(value: Model.ViewModel.CategoryTitle) == false)
+			{
+				<a href="/Category/@(currentUICultureName)/@(Model.ViewModel.CategoryName)" class="btn btn-primary btn-sm">
+					@(Model.ViewModel.CategoryTitle)
+				</a>
+			}
+		}
+
+		@if (string.IsNullOrWhiteSpace(value: Model.ViewModel.Author) == false)
+		{
+			<i class="bi bi-person"></i>
+
+			@if (string.IsNullOrWhiteSpace(value: Model.ViewModel.Username))
+			{
+				@(Model.ViewModel.Author)
+			}
+			else
+			{
+				<a href="/Profile/@(currentUICultureName)/@(Model.ViewModel.Username)" class="text-decoration-none">
+					@(Model.ViewModel.Author)
+				</a>
+			}
+		}
+
+		@if (Model.ViewModel.Score > 0)
+		{
+			<i class="bi bi-hand-thumbs-up"></i>
+
+			@(Resources.DataDictionary.Score)
+			<text>: </text>
+			@(Html.DtatDisplayInteger(value: Model.ViewModel.Score))
+		}
+
+		@if (Model.ViewModel.Hits > 0)
+		{
+			<i class="bi bi-eye"></i>
+
+			@(Html.DtatDisplayInteger(value: Model.ViewModel.Hits))
+		}
+
+	</div>
+
+	<div class="col-lg-3">
+
+		<partial name="Features/Cms/PartialViews/_DisplayRelatedPosts" model="@(Model.ViewModel.Id)" />
+
+	</div>
+</div>

@@ -1,0 +1,65 @@
+﻿@page
+
+@model Server.Pages.Features.Common.Admin.LocalizedHomePageSettings.UpdateModel
+
+@{
+	ViewData[Constants.ViewDataKeyName.IgnoreRichTextBox] = true;
+
+	var pageTitle =
+		$"{Resources.DataDictionary.UpdateOf} {Resources.DataDictionary.LocalizedHomePageSetting}";
+
+	ViewData[Constants.ViewDataKeyName.PageTitle] = pageTitle;
+}
+
+<form method="post">
+
+	<input type="hidden" asp-for="ViewModel.Id" />
+
+	<section-form>
+
+		<fieldset>
+
+			<section-form-header>
+				@(pageTitle)
+			</section-form-header>
+
+			<partial name="PartialViews/_DisplayPageMessages" />
+
+			<dtat-full-input asp-for="ViewModel.Hits" />
+
+			<hr />
+
+			<dtat-full-input asp-for="ViewModel.Title" />
+
+			<dtat-full-input asp-for="ViewModel.Description" />
+
+			<dtat-full-input asp-for="ViewModel.Author" />
+
+			<dtat-full-input asp-for="ViewModel.Keywords" />
+
+			<dtat-full-input asp-for="ViewModel.ImageUrl" dir="ltr" />
+
+			<hr />
+
+			<dtat-full-textarea asp-for="ViewModel.TopBody" />
+
+			<dtat-full-textarea asp-for="ViewModel.BottomBody" />
+
+		</fieldset>
+
+		<section-form-buttons>
+			<button-save />
+			<button-reset />
+		</section-form-buttons>
+
+		@*
+		<section-form-footer>
+		<a asp-page="Details">
+		@(Html.DtatGetLinkCaptionForDetails())
+		</a>
+		</section-form-footer>
+		*@
+
+	</section-form>
+
+</form>

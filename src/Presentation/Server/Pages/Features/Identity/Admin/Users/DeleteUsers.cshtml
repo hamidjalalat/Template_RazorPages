@@ -1,0 +1,44 @@
+﻿@page
+
+@model Server.Pages.Features.Identity.Admin.Users.DeleteUsersModel
+
+@{
+	var pageTitle =
+		$"{Resources.PageTitles.DeleteUsers}";
+
+	ViewData[Constants.ViewDataKeyName.PageTitle] = pageTitle;
+}
+
+<form method="post">
+
+	<section-form>
+
+		<fieldset>
+
+			<section-form-header>
+				@(pageTitle)
+			</section-form-header>
+
+			<partial name="PartialViews/_DisplayPageMessages" />
+
+			<dtat-full-input asp-for="ViewModel.Value" />
+
+			<dtat-full-select asp-for="ViewModel.TimeUnit"
+							  asp-items="@(Html.DtatGetEnumSelectList<Domain.Features.Common.Enums.TimeUnitEnum>(selectedValue: (int)Model.ViewModel.TimeUnit))" />
+
+		</fieldset>
+
+		<section-form-buttons>
+			<button-delete />
+			<button-reset />
+		</section-form-buttons>
+
+		<section-form-footer>
+			<a asp-page="Index">
+				@(Html.DtatGetLinkCaptionForList())
+			</a>
+		</section-form-footer>
+
+	</section-form>
+
+</form>

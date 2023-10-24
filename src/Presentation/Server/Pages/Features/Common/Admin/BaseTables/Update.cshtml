@@ -1,0 +1,69 @@
+﻿@page
+
+@model Server.Pages.Features.Common.Admin.BaseTables.UpdateModel
+
+@{
+	var pageTitle =
+		$"{Resources.DataDictionary.UpdateOf} {Resources.DataDictionary.BaseTable}";
+
+	ViewData[Constants.ViewDataKeyName.PageTitle] = pageTitle;
+}
+
+<form method="post">
+
+	<input type="hidden" asp-for="ViewModel.Id" />
+
+	<section-form>
+		<fieldset>
+			<section-form-header>
+				@(pageTitle)
+			</section-form-header>
+
+			<partial name="PartialViews/_DisplayPageMessages" />
+
+			<dtat-full-checkbox asp-for="ViewModel.IsActive" />
+
+			<dtat-full-checkbox asp-for="ViewModel.IsTestData" />
+
+			<dtat-full-input asp-for="ViewModel.Ordering" />
+
+			<dtat-readonly-input asp-for="ViewModel.Code" />
+
+			<dtat-readonly-input asp-for="ViewModel.Type" />
+
+			@*
+			<dtat-full-input asp-for="ViewModel.Code" />
+			<dtat-full-input asp-for="ViewModel.Type" />
+			*@
+
+			<dtat-full-input asp-for="ViewModel.Title" />
+
+			<dtat-full-input asp-for="ViewModel.Color" dir="ltr" />
+
+			<dtat-full-input asp-for="ViewModel.Icon" dir="ltr" />
+
+			<dtat-full-input asp-for="ViewModel.ImageUrl" dir="ltr" />
+
+			<dtat-full-input asp-for="ViewModel.CoverImageUrl" dir="ltr" />
+
+			<dtat-full-textarea asp-for="ViewModel.Description" />
+		</fieldset>
+
+		<section-form-buttons>
+			<button-save />
+			<button-reset />
+		</section-form-buttons>
+
+		<section-form-footer>
+			<a asp-page="Index">
+				@(Html.DtatGetLinkCaptionForList())
+			</a>
+			@*
+			<a asp-page="Details" asp-route-id="@(Model.ViewModel.Id)">
+			@(Html.DtatGetLinkCaptionForDetails())
+			</a>
+			*@
+		</section-form-footer>
+	</section-form>
+
+</form>

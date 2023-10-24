@@ -1,0 +1,114 @@
+﻿@page
+
+@model Server.Pages.DashboardModel
+
+@inject Infrastructure.Security.AuthenticatedUserService AuthenticatedUserService
+
+@{
+	var pageTitle =
+		Resources.PageTitles.Dashboard;
+
+	ViewData[Constants.ViewDataKeyName.PageTitle] = pageTitle;
+
+	var currentUICultureLcid =
+		Domain.Features.Common.CultureEnumHelper.GetCurrentUICultureLcid();
+}
+
+@if (currentUICultureLcid == Domain.Features.Common.Enums.CultureEnum.Persian)
+{
+	<div class="row mt-3">
+		<div class="col">
+			<div class="alert alert-warning" style="text-align: justify">
+				<b>
+					<i class="bi bi-pin"></i>
+					کاربر گرامی!
+				</b>
+				<br />
+				قویا توصیه می‌کنیم که قبل از هر اقدامی در سامانه نسبت به ویرایش پروفایل خود اقدام نمایید.
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col">
+			<div class="alert alert-warning" style="text-align: justify">
+				<b>
+					<i class="bi bi-pin"></i>
+					کاربر گرامی!
+				</b>
+				<br />
+				در قسمت‌های مختلف سامانه، مانند ویرایش پروفایل و یا ایجاد/ویرایش مطالب، دو
+				فیلد، به نام‌های نشانی تصویر و نشانی تصویر کاور وجود دارند، برای تکمیل این دو فیلد، لطفا
+				به توصیه‌های ذیل توجه فرمایید:
+
+				<br />
+				<br />
+
+				<ul class="mb-0">
+					<li>
+						برای تصاویر، توصیه می‌کنیم که پهنای آن‌ها ۱۲۰۰ پیکسل و ارتفاع آن‌ها ۸۰۰ پیکسل بوده
+						و یا لااقل این نسبت (سه/چهارم) حفظ گردد، و سایز (حجم) آن‌ها، از ۲۰۰ کیلوبایت تجاوز نکند
+						و فرمت آن‌ها
+						JPG
+						و یا
+						PNG
+						باشد.
+					</li>
+					<li>
+						برای تصاویر کاور، توصیه می‌کنیم که پهنای آن‌ها ۱۹۲۰ پیکسل و ارتفاع آن‌ها (حداقل) ۶۴۰ پیکسل بوده
+						و سایز (حجم) آن‌ها، از ۴۰۰ کیلوبایت تجاوز نکند
+						و فرمت آن‌ها
+						JPG
+						و یا
+						PNG
+						باشد.
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+}
+
+@if (currentUICultureLcid == Domain.Features.Common.Enums.CultureEnum.English)
+{
+	<div class="row mt-3">
+		<div class="col">
+			<div class="alert alert-warning">
+				<i class="bi bi-pin"></i>
+				Dear user, we recommend you before any action in this site, update your profile!
+			</div>
+		</div>
+	</div>
+}
+
+@if (currentUICultureLcid == Domain.Features.Common.Enums.CultureEnum.Persian)
+{
+	if (AuthenticatedUserService.RoleCode == Domain.Features.Identity.Enums.RoleEnum.SimpleUser)
+	{
+		<div class="row">
+			<div class="col">
+				<div class="alert alert-danger" style="text-align: justify">
+					<b>
+						<i class="bi bi-pin"></i>
+						کاربر گرامی!
+					</b>
+					<br />
+					شما می‌توانید از سامانه‌هایی که اجازه آپلود فایل می‌دهند، استفاده کرده
+					و نسبت به آپلود تصاویر خود (تصاویر شخصی، مطالب، کاور و غیره) اقدام کرده، و سپس لینک آن‌ها را
+					در فیلدهای مربوطه وارد نمایید. باید دقت داشته باشید که سامانه‌های مذکور باید مجهز به قابلیت
+					SSL
+					بوده و لینک فایل‌های تصاویر، با
+					http(s)
+					آغاز شوند، در غیر این صورت، لینک فایل‌های درج شده، به طور خودکار، توسط سامانه
+					و یا مسئولان پایگاه حذف خواهند شد.
+					<br>
+					لازم به ذکر است، در حال حاضر
+					نقش شما در سامانه، کاربر معمولی بوده و در صورتی که نقش شما
+					به کاربر ویژه تغییر پیدا کند، آنگاه قادر خواهید بود تا از طریق گزینه
+					مدیریت پوشه‌ها و فایل‌های شخصی، در همین سامانه، اقدام
+					به آپلود تصاویر خود نمایید، و طبعا نیازی به سامانه‌های خارجی (دیگری) نخواهد بود.
+				</div>
+			</div>
+		</div>
+	}
+}

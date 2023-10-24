@@ -1,0 +1,36 @@
+﻿@page "/posts/{culture?}/{keywords?}"
+
+@model Server.Pages.Features.Cms.PostsModel
+@inject Services.Features.Common.HtmlSettingService HtmlSettingService
+
+@{
+	var pageTitle =
+		$"{Resources.DataDictionary.ListOf} {Resources.DataDictionary.Posts}";
+
+	ViewData[Constants.ViewDataKeyName.PageTitle] = pageTitle;
+
+	var htmlSetting =
+		await
+		HtmlSettingService.GetInstanceAsync();
+}
+
+<form id="myForm" method="post">
+
+	<partial name="_SearchPost" for="ViewModel.Search" />
+
+	<br />
+
+	<div class="@(htmlSetting.CardsContainerCssClasses)">
+
+		@foreach (var item in Model.ViewModel.Items)
+		{
+			<partial name="Features/Cms/PartialViews/_DisplayPostCard" model="item" />
+		}
+
+	</div>
+
+	<br />
+
+	<partial name="PartialViews/_Pagination" for="ViewModel.Pagination" />
+
+</form>

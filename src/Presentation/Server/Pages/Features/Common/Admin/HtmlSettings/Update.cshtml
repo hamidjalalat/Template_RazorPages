@@ -1,0 +1,71 @@
+﻿@page
+
+@model Server.Pages.Features.Common.Admin.HtmlSettings.UpdateModel
+
+@{
+	var pageTitle =
+		$"{Resources.DataDictionary.UpdateOf} {Resources.DataDictionary.HtmlSetting}";
+
+	ViewData[Constants.ViewDataKeyName.PageTitle] = pageTitle;
+}
+
+<form method="post">
+
+	<input type="hidden" asp-for="ViewModel.Id" />
+
+	<section-form>
+
+		<fieldset>
+
+			<section-form-header>
+				@(pageTitle)
+			</section-form-header>
+
+			<partial name="PartialViews/_DisplayPageMessages" />
+
+			<dtat-full-input asp-for="ViewModel.DisplayDateTimeFormat" dir="ltr" />
+
+			<hr />
+
+			<dtat-full-input asp-for="ViewModel.ToastInitialDelay" />
+
+			<dtat-full-input asp-for="ViewModel.ToastDelayStep" />
+
+			<dtat-full-input asp-for="ViewModel.ToastCssClasses" dir="ltr" />
+
+			<hr />
+
+			<dtat-full-input asp-for="ViewModel.TableCssClasses" dir="ltr" />
+
+			<dtat-full-input asp-for="ViewModel.TableHeaderCssClasses" dir="ltr" />
+
+			<dtat-full-input asp-for="ViewModel.TableFooterCssClasses" dir="ltr" />
+
+			<hr />
+
+			<dtat-full-input asp-for="ViewModel.CardsContainerCssClasses" dir="ltr" />
+
+			<hr />
+
+			<dtat-full-input asp-for="ViewModel.PicturePreviewExtensions" dir="ltr" />
+
+			<dtat-full-input asp-for="ViewModel.PermittedFileExtensionsForUploading" dir="ltr" />
+
+		</fieldset>
+
+		<section-form-buttons>
+			<button-save />
+			<button-reset />
+		</section-form-buttons>
+
+		@*
+		<section-form-footer>
+		<a asp-page="Details">
+		@(Html.DtatGetLinkCaptionForDetails())
+		</a>
+		</section-form-footer>
+		*@
+
+	</section-form>
+
+</form>

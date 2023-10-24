@@ -1,0 +1,121 @@
+﻿@page
+
+@model Server.Pages.Features.Common.Admin.BaseTables.IndexModel
+
+@{
+	var pageTitle =
+		$"{Resources.DataDictionary.ListOf} {Resources.DataDictionary.BaseTables}";
+
+	ViewData[Constants.ViewDataKeyName.PageTitle] = pageTitle;
+}
+
+<section-page-header>
+	@(pageTitle)
+</section-page-header>
+
+<partial name="PartialViews/_DisplayPageMessages" />
+
+<section-table>
+	<table>
+		<caption>
+			@(pageTitle)
+		</caption>
+
+		<thead>
+			<tr>
+				<th>
+					@(Resources.DataDictionary.RowNumber)
+				</th>
+				<th>
+				</th>
+				<th>
+					@(Resources.DataDictionary.IsActive)
+				</th>
+				@*
+				<th>
+				@(Resources.DataDictionary.IsTestData)
+				</th>
+				*@
+				<th>
+					@(Resources.DataDictionary.Ordering)
+				</th>
+				<th>
+					@(Resources.DataDictionary.BaseTableEnum)
+				</th>
+				<th>
+					@(Resources.DataDictionary.BaseTableTypeEnum)
+				</th>
+				<th>
+					@(Resources.DataDictionary.ItemCount)
+				</th>
+				<th>
+				</th>
+				<th>
+					@(Resources.DataDictionary.Title)
+				</th>
+				<th>
+					@(Resources.DataDictionary.InsertDateTime)
+				</th>
+				<th>
+					@(Resources.DataDictionary.UpdateDateTime)
+				</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			@for (var index = 0; index <= Model.ViewModel.Count - 1; index++)
+			{
+				var item = Model.ViewModel[index];
+
+				<tr>
+					@(Html.DtatDisplayRowNumberWithTd(value: index + 1))
+
+					<table-actions>
+						@*
+					<a asp-page="Details" asp-route-id="@(item.Id)">
+					@(Html.DtatGetIconDetails())
+					</a>
+					*@
+						<a asp-page="Update" asp-route-id="@(item.Id)">
+							@(Html.DtatGetIconUpdate())
+						</a>
+						<a asp-page="../BaseTableItems/Index" asp-route-baseTableId="@(item.Id)">
+							@(Resources.DataDictionary.Items)
+						</a>
+					</table-actions>
+
+					@(Html.DtatDisplayBooleanWithTd(value: item.IsActive))
+
+					@*
+				@(Html.DtatDisplayBooleanWithTd(value: item.IsTestData))
+				*@
+
+					@(Html.DtatDisplayIntegerWithTd(value: item.Ordering))
+
+					@{
+						var codeKey = $"{(int)item.Code} - {item.Code}";
+					}
+
+					@(Html.DtatDisplayStringWithTd(value: codeKey, isLeftToRight: true))
+
+					@{
+						codeKey = $"{(int)item.Type} - {item.Type}";
+					}
+
+					@(Html.DtatDisplayStringWithTd(value: codeKey, isLeftToRight: true))
+
+					@(Html.DtatDisplayIntegerWithTd(value: item.ItemCount))
+
+					<td>
+					</td>
+
+					@(Html.DtatDisplayStringWithTd(value: item.Title))
+
+					@(Html.DtatDisplayDateTimeOffsetWithTd(value: item.InsertDateTime))
+
+					@(Html.DtatDisplayDateTimeOffsetWithTd(value: item.UpdateDateTime))
+				</tr>
+			}
+		</tbody>
+	</table>
+</section-table>

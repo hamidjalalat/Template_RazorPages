@@ -1,0 +1,127 @@
+﻿@page
+
+@using Dtat
+
+@model Server.Pages.Features.Identity.Admin.LoginLogs.IndexModel
+
+@{
+	var pageTitle =
+		$"{Resources.DataDictionary.ListOf} {Resources.DataDictionary.LoginLogs}";
+
+	ViewData[Constants.ViewDataKeyName.PageTitle] = pageTitle;
+
+	var currentUICultureName = Domain.Features
+		.Common.CultureEnumHelper.GetCurrentUICultureName();
+}
+
+<section-page-header>
+	@(pageTitle)
+</section-page-header>
+
+<partial name="PartialViews/_DisplayPageMessages" />
+
+<section-table>
+	<table>
+		<caption>
+			@(pageTitle)
+		</caption>
+
+		<thead>
+			<tr>
+				<th>
+					@(Resources.DataDictionary.RowNumber)
+				</th>
+				<th>
+					@(Resources.DataDictionary.LoginType)
+				</th>
+				<th>
+					@(Resources.DataDictionary.IP)
+				</th>
+				<th>
+					@(Resources.DataDictionary.EmailAddressInBrief)
+				</th>
+				<th>
+					@(Resources.DataDictionary.Role)
+				</th>
+				<th>
+					@(Resources.DataDictionary.FullName)
+				</th>
+				<th>
+					@(Resources.DataDictionary.Username)
+				</th>
+				<th>
+					@(Resources.DataDictionary.CellPhoneNumberInBrief)
+				</th>
+				<th>
+					@(Resources.DataDictionary.LoginDateTime)
+				</th>
+				<th>
+					@(Resources.DataDictionary.LogoutDateTime)
+				</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			@for (var index = 0; index <= Model.ViewModel.Count - 1; index++)
+			{
+				var item = Model.ViewModel[index];
+
+				<tr>
+					@(Html.DtatDisplayRowNumberWithTd(value: index + 1))
+
+					@(Html.DtatDisplayStringWithTd(value: item.LoginType.GetDisplayName()))
+
+					@(Html.DtatDisplayStringWithTd(value: item.UserIP, isLeftToRight: true))
+
+					@(Html.DtatDisplayStringWithTd(value: item.EmailAddress, isLeftToRight: true))
+
+					@(Html.DtatDisplayStringWithTd(value: item.RoleTitle))
+
+					<td>
+						@if (string.IsNullOrWhiteSpace(value: item.FirstName) &&
+								string.IsNullOrWhiteSpace(value: item.LastName))
+						{
+							<i class="bi bi-patch-question"></i>
+						}
+						else
+						{
+							@(item.GenderPrefix)
+							<text>&nbsp;</text>
+							@(item.FirstName)
+							<text>&nbsp;</text>
+							@(item.LastName)
+						}
+					</td>
+
+					<td dir="ltr">
+						@if (string.IsNullOrWhiteSpace(value: item.Username))
+						{
+							<i class="bi bi-patch-question"></i>
+						}
+						else
+						{
+							<a href="/profile/@(currentUICultureName)/@(item.Username)">
+								@(item.Username)
+							</a>
+						}
+					</td>
+
+					@if (string.IsNullOrWhiteSpace(value: item.CellPhoneNumber))
+					{
+						<td dir="ltr">
+							<i class="bi bi-patch-question"></i>
+						</td>
+					}
+					else
+					{
+						@(Html.DtatDisplayStringWithTd(value: item.CellPhoneNumber, isLeftToRight: true))
+					}
+
+					@(Html.DtatDisplayDateTimeOffsetWithTd(value: item.LoginDateTime))
+
+					@(Html.DtatDisplayDateTimeOffsetWithTd(value: item.LogoutDateTime))
+				</tr>
+			}
+		</tbody>
+	</table>
+</section-table>

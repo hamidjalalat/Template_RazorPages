@@ -1,0 +1,107 @@
+﻿@model System.Guid?
+
+@inject Persistence.DatabaseContext DatabaseContext
+
+@using Microsoft.EntityFrameworkCore
+
+@{
+	if (Model is null)
+	{
+		return;
+	}
+
+	var currentPost =
+		await
+		DatabaseContext.Posts
+		.Where(current => current.Id == Model)
+		.FirstOrDefaultAsync();
+
+	if (currentPost is null)
+	{
+		return;
+	}
+
+	var currentUICultureLcid = Domain.Features
+		.Common.CultureEnumHelper.GetCurrentUICultureLcid();
+
+	var currentCulture =
+		await
+		DatabaseContext.Cultures
+		.Where(current => current.Lcid == currentUICultureLcid)
+		.FirstOrDefaultAsync();
+
+	if (currentCulture == null)
+	{
+		return;
+	}
+
+	var posts =
+		DatabaseContext.Posts
+
+		.Where(current => current.CultureId == currentCulture.Id)
+		.Where(current => current.CategoryId == currentPost.CategoryId)
+
+		.Where(current => current.IsActive)
+		.Where(current => current.IsDraft == false)
+		.Where(current => current.IsDeleted == false)
+
+		.Where(current => current.Type!.IsActive)
+		.Where(current => current.Category!.IsActive)
+
+		.Where(current => current.User!.IsDeleted == false)
+
+		// فکر می‌کنم که به دو دستور ذیل نیازی نیست
+		//.Where(current => current.User!.IsActive)
+		//.Where(current => current.User!.IsEmailAddressVerified)
+
+		.OrderByDescending(current => current.IsFeatured)
+		.ThenByDescending(current => current.UpdateDateTime)
+
+		.Select(current => new ViewModels.Pages
+			.Features.Cms.PartialViews.DisplayPostCardViewModel
+				{
+					Id = current.Id,
+					Hits = current.Hits,
+					IsVerified = current.IsVerified,
+
+					Title = current.Title,
+					ImageUrl = current.ImageUrl,
+					Description = current.Description,
+
+					Username = current.User!.Username,
+
+					DisplayAuthor = true,
+					Author = current.Author,
+
+					DisplayTypeLink = true,
+					TypeName = current.Type!.Name,
+					TypeTitle = current.Type!.Title,
+
+					DisplayCategoryLink = true,
+					CategoryName = current.Category!.Name,
+					CategoryTitle = current.Category!.Title,
+
+					UpdateDateTime = current.UpdateDateTime,
+				})
+
+		.Skip(count: 0)
+		.Take(count: 6)
+
+		.ToList();
+
+	if (posts.Count == 0)
+	{
+		return;
+	}
+}
+
+<div class="row row-cols-1 g-4">
+
+	@for (var index = 0; index <= posts.Count - 1; index++)
+	{
+		var post = posts[index];
+
+		<partial name="Features/Cms/PartialViews/_DisplayPostCard" model="post" />
+	}
+
+</div>

@@ -1,0 +1,90 @@
+﻿@inject Infrastructure.Security.AuthenticatedUserService AuthenticatedUserService
+
+@{
+	var currentCulture =
+		System.Threading.Thread
+		.CurrentThread.CurrentUICulture;
+
+	var currentCultureName = currentCulture.Name;
+
+	var username =
+		AuthenticatedUserService.Username;
+
+	var link =
+		$"/profile/{currentCultureName}/{username}";
+}
+
+<li class="nav-item dropdown">
+
+	<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+		@(Resources.DataDictionary.IdentitySettings)
+	</a>
+
+	<ul class="dropdown-menu mt-0">
+
+		<li>
+			<a class="dropdown-item" asp-page="/Index">
+				@(Resources.PageTitles.Home)
+			</a>
+		</li>
+
+		<li>
+			<a class="dropdown-item" asp-page="/Dashboard">
+				@(Resources.PageTitles.Dashboard)
+			</a>
+		</li>
+
+		<li>
+			<a class="dropdown-item" asp-page="/Account/ChangePassword">
+				@(Resources.PageTitles.ChangePassword)
+			</a>
+		</li>
+
+		@if (string.IsNullOrWhiteSpace(value: username) == false)
+		{
+			<li>
+				<a class="dropdown-item" href="@(link)">
+					@(Resources.DataDictionary.DisplayProfile)
+				</a>
+			</li>
+		}
+
+		<li>
+			<a class="dropdown-item" asp-page="/Account/UpdateProfile">
+				@(Resources.DataDictionary.UpdateProfile)
+			</a>
+		</li>
+
+		<li>
+			<a class="dropdown-item" asp-page="/Account/LoginLogs">
+				@(Resources.DataDictionary.LoginLogs)
+			</a>
+		</li>
+
+		<li><hr class="dropdown-divider" /></li>
+
+		<li>
+			<a class="dropdown-item" asp-page="/Features/Hrm/User/UserSites/Index">
+				@(Resources.DataDictionary.ManageOf)
+				@(Resources.DataDictionary.Sites)
+			</a>
+		</li>
+
+		@switch (AuthenticatedUserService.RoleCode)
+		{
+			case Domain.Features.Identity.Enums.RoleEnum.SimpleUser:
+			case Domain.Features.Identity.Enums.RoleEnum.SpecialUser:
+			{
+				<li>
+					<a class="dropdown-item" asp-page="/Features/Common/FileManager/Index">
+						@(Resources.DataDictionary.PersonalFileManager)
+					</a>
+				</li>
+
+				break;
+			}
+		}
+
+	</ul>
+
+</li>

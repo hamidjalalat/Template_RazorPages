@@ -1,0 +1,151 @@
+﻿@page
+
+@model Server.Pages.Features.Cms.Admin.Posts.IndexModel
+
+@{
+	var pageTitle =
+		$"{Resources.DataDictionary.ListOf} {Resources.DataDictionary.Posts}";
+
+	ViewData[Constants.ViewDataKeyName.PageTitle] = pageTitle;
+
+	var currentUICultureName = Domain.Features
+		.Common.CultureEnumHelper.GetCurrentUICultureName();
+}
+
+<section-page-header>
+	@(pageTitle)
+</section-page-header>
+
+<section-page-actions>
+	<a asp-page="Create">
+		@(Html.DtatGetLinkCaptionForCreate())
+	</a>
+</section-page-actions>
+
+<partial name="PartialViews/_DisplayPageMessages" />
+
+<form id="myForm" method="post">
+
+	<partial name="PartialViews/_Sorting" for="ViewModel.Sorting" />
+
+	<partial name="_Search" for="ViewModel.Search" />
+
+	<section-table>
+		<table>
+			<caption>
+				@(pageTitle)
+			</caption>
+
+			<thead>
+				<tr>
+					<th>
+						@(Resources.DataDictionary.RowNumber)
+					</th>
+					<th>
+					</th>
+					<th>
+						@(Resources.DataDictionary.PostType)
+					</th>
+					<th>
+						@(Resources.DataDictionary.Category)
+					</th>
+					<th>
+						@(Resources.DataDictionary.User)
+					</th>
+					<th>
+						@(Resources.DataDictionary.IsDraft)
+					</th>
+					<th>
+						@(Resources.DataDictionary.IsActive)
+					</th>
+					<th>
+						@(Resources.DataDictionary.IsFeatured)
+					</th>
+					<th>
+						@(Resources.DataDictionary.IsDeleted)
+					</th>
+					<th>
+						@(Resources.DataDictionary.IsCommentingEnabled)
+					</th>
+					<th>
+						@(Resources.DataDictionary.Title)
+					</th>
+					<th>
+						@(Resources.DataDictionary.CommentCount)
+					</th>
+					<th>
+						@(Resources.DataDictionary.Hits)
+					</th>
+					<th>
+						@(Resources.DataDictionary.Score)
+					</th>
+					<th>
+						@(Resources.DataDictionary.UpdateDateTime)
+					</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				@for (var index = 0; index <= Model.ViewModel.Items.Count - 1; index++)
+				{
+					var item = Model.ViewModel.Items[index];
+
+					<tr>
+						@(Html.DtatDisplayRowNumberWithTd
+							(value: Model.ViewModel.Pagination.StartIndex + index))
+
+						<table-actions>
+							<a href="~/post/@(currentUICultureName)/@(item.Id)">
+								@(Html.DtatGetIconDisplay())
+							</a>
+							<a asp-page="Details" asp-route-id="@(item.Id)">
+								@(Html.DtatGetIconDetails())
+							</a>
+							<a asp-page="Update" asp-route-id="@(item.Id)">
+								@(Html.DtatGetIconUpdate())
+							</a>
+							<a asp-page="Delete" asp-route-id="@(item.Id)">
+								@(Html.DtatGetIconDelete())
+							</a>
+						</table-actions>
+
+						@(Html.DtatDisplayStringWithTd(value: item.TypeName))
+
+						@(Html.DtatDisplayStringWithTd(value: item.CategoryName))
+
+						@(Html.DtatDisplayStringWithTd(value: item.Author, isLeftToRight: true))
+
+						@(Html.DtatDisplayBooleanWithTd(value: item.IsDraft))
+
+						@(Html.DtatDisplayBooleanWithTd(value: item.IsActive))
+
+						@(Html.DtatDisplayBooleanWithTd(value: item.IsFeatured))
+
+						@(Html.DtatDisplayBooleanWithTd(value: item.IsDeleted))
+
+						@(Html.DtatDisplayBooleanWithTd(value: item.IsCommentingEnabled))
+
+						@*@(Html.DtatDisplayStringWithTd(value: item.Title))*@
+
+						<td>
+							<a href="~/Post/@(currentUICultureName)/@(item.Id)">
+								@(item.Title)
+							</a>
+						</td>
+
+						@(Html.DtatDisplayIntegerWithTd(value: item.CommentCount))
+
+						@(Html.DtatDisplayIntegerWithTd(value: item.Hits))
+
+						@(Html.DtatDisplayIntegerWithTd(value: item.Score))
+
+						@(Html.DtatDisplayDateTimeOffsetWithTd(value: item.UpdateDateTime))
+					</tr>
+				}
+			</tbody>
+		</table>
+	</section-table>
+
+	<partial name="PartialViews/_Pagination" for="ViewModel.Pagination" />
+
+</form>

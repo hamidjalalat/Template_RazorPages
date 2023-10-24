@@ -1,0 +1,111 @@
+﻿@model Server.Pages.Features.Common.FileManager.IndexModel;
+
+@inject Services.Features.Common.HtmlSettingService HtmlSettingService
+
+@{
+	if (Model is null)
+	{
+		return;
+	}
+
+	var htmlSetting =
+		await
+		HtmlSettingService.GetInstanceAsync();
+}
+
+<div class="row">
+	<div class="col table-responsive">
+		<table class="@(htmlSetting.TableCssClasses)">
+			<caption>Files</caption>
+
+			<thead class="@(htmlSetting.TableHeaderCssClasses)">
+				<tr>
+					<th scope="col">
+						#
+					</th>
+					<th scope="col"></th>
+					<th scope="col">
+						Name
+					</th>
+					<th scope="col">
+						Type
+					</th>
+					<th scope="col">
+						Length
+					</th>
+					<th scope="col">
+						Attributes
+					</th>
+					<th scope="col">
+						Creation Time
+					</th>
+					<th scope="col">
+						Last Write Time
+					</th>
+					<th scope="col">
+						Last Access Time
+					</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				@{
+					long totalLength = 0;
+
+					for (var index = 0; index <= Model.Files.Count - 1; index++)
+					{
+						var item = Model.Files[index];
+						var pathName = $"{Model.Prefix}{Model.CurrentPath}{item.Name}";
+
+						totalLength += item.Length;
+
+						<tr>
+							<th scope="row" class="text-center">
+								@(index + 1)
+							</th>
+							<td class="text-center">
+								<input type="checkbox" id="@(item.Name)" value="@(item.Name)" name="items" class="form-check-input" />
+							</td>
+							<td>
+								<a href="@(pathName)" class="text-decoration-none" target="_blank">
+									@(item.Name)
+								</a>
+							</td>
+							<td>
+								@(item.Extension.ToLower())
+							</td>
+							<td>
+								@(item.Length.ToString("#,##0"))
+							</td>
+							<td>
+								@(item.Attributes)
+							</td>
+							<td>
+								@(item.CreationTime.ToString(htmlSetting.DisplayDateTimeFormat))
+							</td>
+							<td>
+								@(item.LastWriteTime.ToString(htmlSetting.DisplayDateTimeFormat))
+							</td>
+							<td>
+								@(item.LastAccessTime.ToString(htmlSetting.DisplayDateTimeFormat))
+							</td>
+						</tr>
+					}
+				}
+			</tbody>
+
+			<tfoot class="@(htmlSetting.TableFooterCssClasses)">
+				<tr>
+					<th scope="col" colspan="9">
+						Total Length:
+						@(totalLength.ToString("#,##0")) Bytes
+						|
+						@((((double)totalLength) / ((double)1024)).ToString("#,##0")) KBytes
+						|
+						@((((double)totalLength) / ((double)(1024 * 1024))).ToString("#,##0")) MBytes
+					</th>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div>

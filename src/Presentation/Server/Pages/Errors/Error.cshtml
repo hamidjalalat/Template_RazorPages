@@ -1,0 +1,16 @@
+﻿@page
+
+@model Server.Pages.Errors.ErrorModel
+
+@{
+	var pageTitle =
+		Resources.PageTitles.UnexpectedError;
+
+	ViewData[Constants.ViewDataKeyName.PageTitle] = pageTitle;
+}
+
+<h3 class="text-center mt-3">
+	@(pageTitle)
+</h3>
+
+<hr />

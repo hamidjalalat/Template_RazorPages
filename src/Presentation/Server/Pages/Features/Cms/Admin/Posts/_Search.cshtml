@@ -1,0 +1,99 @@
+﻿@model ViewModels.Pages.Features.Cms.Admin.Posts.SearchViewModel
+
+<div class="accordion" id="accordionSearch">
+
+	<div class="accordion-item">
+
+		<h2 class="accordion-header">
+			<button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+				@(Resources.DataDictionary.Search)
+			</button>
+		</h2>
+
+		<div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionSearch">
+			<div class="accordion-body">
+
+				<div class="row mb-4">
+					<div class="col">
+						<label asp-for="TypeId" class="form-label"></label>
+						<select asp-for="TypeId" asp-items="Model.TypesSelectList" class="form-select"></select>
+						<span asp-validation-for="TypeId" class="text-danger"></span>
+					</div>
+
+					<div class="col">
+						<label asp-for="CategoryId" class="form-label"></label>
+						<select asp-for="CategoryId" asp-items="Model.CategoriesSelectList" class="form-select"></select>
+						<span asp-validation-for="CategoryId" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="row mb-4">
+					<div class="col">
+						<label asp-for="Title" class="form-label"></label>
+						<input asp-for="Title" class="form-control" />
+						<span asp-validation-for="Title" class="text-danger"></span>
+					</div>
+
+					<div class="col">
+						<label asp-for="Description" class="form-label"></label>
+						<input asp-for="Description" class="form-control" />
+						<span asp-validation-for="Description" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="row mb-4">
+					<div class="col">
+						<label asp-for="Introduction" class="form-label"></label>
+						<input asp-for="Introduction" class="form-control" />
+						<span asp-validation-for="Introduction" class="text-danger"></span>
+					</div>
+
+					<div class="col">
+						<label asp-for="Body" class="form-label"></label>
+						<input asp-for="Body" class="form-control" />
+						<span asp-validation-for="Body" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="row mb-4">
+					<div class="col">
+						<label asp-for="IsDraft" class="form-label"></label>
+						<select asp-for="IsDraft" asp-items="Model.IsDraftSelectList" class="form-select"></select>
+						<span asp-validation-for="IsDraft" class="text-danger"></span>
+					</div>
+
+					<div class="col">
+						<label asp-for="IsActive" class="form-label"></label>
+						<select asp-for="IsActive" asp-items="Model.IsActiveSelectList" class="form-select"></select>
+						<span asp-validation-for="IsActive" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="row mb-4">
+					<div class="col">
+						<label asp-for="IsFeatured" class="form-label"></label>
+						<select asp-for="IsFeatured" asp-items="Model.IsFeaturedSelectList" class="form-select"></select>
+						<span asp-validation-for="IsFeatured" class="text-danger"></span>
+					</div>
+
+					<div class="col">
+						<label asp-for="IsDeleted" class="form-label"></label>
+						<select asp-for="IsDeleted" asp-items="Model.IsDeletedSelectList" class="form-select"></select>
+						<span asp-validation-for="IsDeleted" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col">
+						<button type="submit" class="btn btn-primary" asp-page-handler="GoToFirst">
+							<i class="bi bi-search"></i>
+							@(Resources.DataDictionary.Search)
+						</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</div>

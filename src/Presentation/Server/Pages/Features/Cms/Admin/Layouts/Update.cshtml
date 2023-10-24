@@ -1,0 +1,78 @@
+﻿@page
+
+@model Server.Pages.Features.Cms.Admin.Layouts.UpdateModel
+
+@{
+	ViewData[Constants.ViewDataKeyName.IgnoreRichTextBox] = true;
+
+	var pageTitle =
+		$"{Resources.DataDictionary.UpdateOf} {Resources.DataDictionary.Layout}";
+
+	ViewData[Constants.ViewDataKeyName.PageTitle] = pageTitle;
+}
+
+<form method="post">
+
+	<input type="hidden" asp-for="ViewModel.Id" />
+
+	<section-form>
+		<fieldset>
+			<section-form-header>
+				@(pageTitle)
+			</section-form-header>
+
+			<partial name="PartialViews/_DisplayPageMessages" />
+
+			<dtat-full-checkbox asp-for="ViewModel.IsActive" />
+
+			<dtat-full-input asp-for="ViewModel.Ordering" />
+
+			<dtat-full-input asp-for="ViewModel.Title" />
+
+			<dtat-full-select asp-for="ViewModel.Theme"
+							  asp-items="@(Html.DtatGetEnumSelectList<Domain.Features.Cms.Enums.ThemeEnum>(selectedValue: (int?)Model.ViewModel.Theme))" />
+
+			<dtat-full-checkbox asp-for="ViewModel.DisplayDefaultMenu1" />
+			<dtat-full-checkbox asp-for="ViewModel.DisplayDefaultMenu2" />
+			<dtat-full-checkbox asp-for="ViewModel.DisplayDefaultMenu3" />
+			<dtat-full-checkbox asp-for="ViewModel.DisplayDefaultFooter" />
+
+			<dtat-full-input asp-for="ViewModel.ContainerCssClass" dir="ltr" />
+
+			<dtat-full-textarea asp-for="ViewModel.TopBody" dir="ltr" />
+
+			<dtat-full-input asp-for="ViewModel.StartCssClass" dir="ltr" />
+			<dtat-full-textarea asp-for="ViewModel.StartBody" dir="ltr" />
+
+			<dtat-full-input asp-for="ViewModel.MainCssClass" dir="ltr" />
+
+			<dtat-full-input asp-for="ViewModel.EndCssClass" dir="ltr" />
+			<dtat-full-textarea asp-for="ViewModel.EndBody" dir="ltr" />
+
+			<dtat-full-textarea asp-for="ViewModel.BottomBody" dir="ltr" />
+
+			<hr />
+
+			<dtat-full-textarea asp-for="ViewModel.CustomStyleSheets" dir="ltr" />
+			<dtat-full-textarea asp-for="ViewModel.CustomScripts" dir="ltr" />
+		</fieldset>
+
+		<section-form-buttons>
+			<button-save />
+			<button-reset />
+		</section-form-buttons>
+
+		<section-form-footer>
+			<a asp-page="Index">
+				@(Html.DtatGetLinkCaptionForList())
+			</a>
+			<a asp-page="Details" asp-route-id="@(Model.ViewModel.Id)">
+				@(Html.DtatGetLinkCaptionForDetails())
+			</a>
+			<a asp-page="Delete" asp-route-id="@(Model.ViewModel.Id)">
+				@(Html.DtatGetLinkCaptionForDelete())
+			</a>
+		</section-form-footer>
+	</section-form>
+
+</form>

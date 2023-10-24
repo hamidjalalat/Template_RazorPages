@@ -1,0 +1,135 @@
+﻿@model ViewModels.Pages.Features.Identity.Admin.Users.SearchViewModel
+
+<div class="accordion" id="accordionSearch">
+
+	<div class="accordion-item">
+
+		<h2 class="accordion-header">
+			<button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+				@(Resources.DataDictionary.Search)
+			</button>
+		</h2>
+
+		<div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionSearch">
+			<div class="accordion-body">
+
+				<div class="row mb-4">
+					<div class="col">
+						<label asp-for="RoleId" class="form-label"></label>
+						<select asp-for="RoleId" asp-items="Model.RolesSelectList" class="form-select"></select>
+						<span asp-validation-for="RoleId" class="text-danger"></span>
+					</div>
+
+					<div class="col">
+						<label asp-for="GenderId" class="form-label"></label>
+						<select asp-for="GenderId" asp-items="Model.GendersSelectList" class="form-select"></select>
+						<span asp-validation-for="GenderId" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="row mb-4">
+					<div class="col">
+						<label asp-for="Username" class="form-label"></label>
+						<input asp-for="Username" class="form-control" />
+						<span asp-validation-for="Username" class="text-danger"></span>
+					</div>
+
+					<div class="col">
+						<label asp-for="EmailAddress" class="form-label"></label>
+						<input asp-for="EmailAddress" class="form-control" />
+						<span asp-validation-for="EmailAddress" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="row mb-4">
+					<div class="col">
+						<label asp-for="NationalCode" class="form-label"></label>
+						<input asp-for="NationalCode" class="form-control" />
+						<span asp-validation-for="NationalCode" class="text-danger"></span>
+					</div>
+
+					<div class="col">
+						<label asp-for="CellPhoneNumber" class="form-label"></label>
+						<input asp-for="CellPhoneNumber" class="form-control" />
+						<span asp-validation-for="CellPhoneNumber" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="row mb-4">
+					<div class="col">
+						<label asp-for="AdminDescription" class="form-label"></label>
+						<input asp-for="AdminDescription" class="form-control" />
+						<span asp-validation-for="AdminDescription" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="row mb-4">
+					<div class="col">
+						<label asp-for="IsActive" class="form-label"></label>
+						<select asp-for="IsActive" asp-items="Model.IsActiveSelectList" class="form-select"></select>
+						<span asp-validation-for="IsActive" class="text-danger"></span>
+					</div>
+
+					<div class="col">
+						<label asp-for="IsVerified" class="form-label"></label>
+						<select asp-for="IsVerified" asp-items="Model.IsVerifiedSelectList" class="form-select"></select>
+						<span asp-validation-for="IsVerified" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="row mb-4">
+					<div class="col">
+						<label asp-for="IsFeatured" class="form-label"></label>
+						<select asp-for="IsFeatured" asp-items="Model.IsFeaturedSelectList" class="form-select"></select>
+						<span asp-validation-for="IsFeatured" class="text-danger"></span>
+					</div>
+
+					<div class="col">
+						<label asp-for="IsDeleted" class="form-label"></label>
+						<select asp-for="IsDeleted" asp-items="Model.IsDeletedSelectList" class="form-select"></select>
+						<span asp-validation-for="IsDeleted" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="row mb-4">
+					<div class="col">
+						<label asp-for="IsEmailAddressVerified" class="form-label"></label>
+						<select asp-for="IsEmailAddressVerified" asp-items="Model.IsEmailAddressVerifiedSelectList" class="form-select"></select>
+						<span asp-validation-for="IsEmailAddressVerified" class="text-danger"></span>
+					</div>
+
+					<div class="col">
+						<label asp-for="IsNationalCodeVerified" class="form-label"></label>
+						<select asp-for="IsNationalCodeVerified" asp-items="Model.IsNationalCodeVerifiedSelectList" class="form-select"></select>
+						<span asp-validation-for="IsNationalCodeVerified" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="row mb-4">
+					<div class="col">
+						<label asp-for="IsVisibleInContactUsPage" class="form-label"></label>
+						<select asp-for="IsVisibleInContactUsPage" asp-items="Model.IsVisibleInContactUsPageSelectList" class="form-select"></select>
+						<span asp-validation-for="IsVisibleInContactUsPage" class="text-danger"></span>
+					</div>
+
+					<div class="col">
+						<label asp-for="IsCellPhoneNumberVerified" class="form-label"></label>
+						<select asp-for="IsCellPhoneNumberVerified" asp-items="Model.IsCellPhoneNumberVerifiedSelectList" class="form-select"></select>
+						<span asp-validation-for="IsCellPhoneNumberVerified" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col">
+						<button type="submit" class="btn btn-primary" asp-page-handler="GoToFirst">
+							<i class="bi bi-search"></i>
+							@(Resources.DataDictionary.Search)
+						</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</div>

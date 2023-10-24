@@ -1,0 +1,32 @@
+﻿@page "{culture?}"
+
+@model Server.Pages.IndexModel
+
+@inject Services.Features.Common.LocalizedHomePageSettingService LocalizedHomePageSettingService
+
+@{
+	var localizedHomePageSetting =
+		await
+		LocalizedHomePageSettingService.GetInstanceAsync();
+
+	ViewData[Constants.ViewDataKeyName.PageTitle] = localizedHomePageSetting.Title;
+	ViewData[Constants.ViewDataKeyName.PageAuthor] = localizedHomePageSetting.Author;
+	ViewData[Constants.ViewDataKeyName.PageImageUrl] = localizedHomePageSetting.ImageUrl;
+	ViewData[Constants.ViewDataKeyName.PageKeywords] = localizedHomePageSetting.Keywords;
+	ViewData[Constants.ViewDataKeyName.PageDescription] = localizedHomePageSetting.Description;
+
+	Layout =
+		"Layouts/_HomePage";
+}
+
+@if (string.IsNullOrWhiteSpace(value: localizedHomePageSetting.TopBody) == false)
+{
+	@(Html.Raw(value: localizedHomePageSetting.TopBody))
+}
+
+<partial name="Features/Cms/PartialViews/_DisplayPostsInHomePage" />
+
+@if (string.IsNullOrWhiteSpace(value: localizedHomePageSetting.BottomBody) == false)
+{
+	@(Html.Raw(value: localizedHomePageSetting.BottomBody))
+}

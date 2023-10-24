@@ -1,0 +1,45 @@
+﻿@page
+
+@model Server.Pages.ContactModel
+
+@{
+	var pageTitle =
+		$"{Resources.PageTitles.Contact}";
+
+	ViewData[Constants.ViewDataKeyName.PageTitle] = pageTitle;
+}
+
+<form method="post">
+
+	<section-form>
+		<fieldset>
+			<section-form-header>
+				@(pageTitle)
+			</section-form-header>
+
+			<partial name="PartialViews/_DisplayPageMessages" />
+
+			<dtat-full-select asp-for="ViewModel.RecipientUserId" asp-items="@(Model.UsersSelectList)" />
+
+			<hr />
+
+			<dtat-full-input asp-for="ViewModel.FullName" />
+
+			<dtat-full-input asp-for="ViewModel.CellPhoneNumber" dir="ltr" />
+
+			<dtat-full-input asp-for="ViewModel.EmailAddress" dir="ltr" />
+
+			<dtat-full-input asp-for="ViewModel.EmailSubject" />
+
+			<dtat-full-textarea asp-for="ViewModel.EmailBody" />
+
+			<partial name="~/Pages/Shared/PartialViews/_CaptchaImage.cshtml" />
+		</fieldset>
+
+		<section-form-buttons>
+			<button-send />
+			<button-reset />
+		</section-form-buttons>
+	</section-form>
+
+</form>

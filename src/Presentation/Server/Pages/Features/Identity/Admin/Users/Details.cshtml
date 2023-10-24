@@ -1,0 +1,109 @@
+﻿@page
+
+@model Server.Pages.Features.Identity.Admin.Users.DetailsModel
+
+@{
+	var pageTitle =
+		$"{Resources.DataDictionary.DetailsOf} {Resources.DataDictionary.User}";
+
+	ViewData[Constants.ViewDataKeyName.PageTitle] = pageTitle;
+}
+
+<section-form>
+	<fieldset>
+		<section-form-header>
+			@(pageTitle)
+		</section-form-header>
+
+		<partial name="PartialViews/_DisplayPageMessages" />
+
+		<dtat-readonly-input asp-for="ViewModel.Id" />
+
+		<dtat-readonly-checkbox asp-for="ViewModel.IsActive" />
+		<dtat-readonly-checkbox asp-for="ViewModel.IsFeatured" />
+		<dtat-readonly-checkbox asp-for="ViewModel.IsTestData" />
+		<dtat-readonly-checkbox asp-for="ViewModel.IsVerified" />
+		<dtat-readonly-checkbox asp-for="ViewModel.IsUndeletable" />
+
+		<hr />
+
+		<dtat-readonly-input asp-for="ViewModel.RoleTitle" />
+		<dtat-readonly-input asp-for="ViewModel.EmailAddress" dir="ltr" />
+		<dtat-readonly-checkbox asp-for="ViewModel.IsEmailAddressVerified" />
+
+		<hr />
+
+		<dtat-readonly-input asp-for="ViewModel.Username" dir="ltr" />
+
+		<hr />
+
+		<dtat-readonly-input asp-for="ViewModel.GenderTitle" />
+		<dtat-readonly-input asp-for="ViewModel.FirstName" />
+		<dtat-readonly-input asp-for="ViewModel.LastName" />
+
+		<hr />
+
+		<dtat-readonly-input asp-for="ViewModel.CellPhoneNumber" dir="ltr" />
+		<dtat-readonly-checkbox asp-for="ViewModel.IsCellPhoneNumberVerified" />
+
+		<hr />
+
+		<dtat-readonly-input asp-for="ViewModel.NationalCode" dir="ltr" />
+		<dtat-readonly-checkbox asp-for="ViewModel.IsNationalCodeVerified" />
+
+		<hr />
+
+		<dtat-readonly-checkbox asp-for="ViewModel.IsDeleted" />
+		<dtat-readonly-input asp-for="ViewModel.DeleteDateTime" />
+
+		<hr />
+
+		<dtat-readonly-input asp-for="ViewModel.RegisterTypeTitle" />
+		<dtat-readonly-input asp-for="ViewModel.RegisterIP" dir="ltr" />
+		<dtat-readonly-input asp-for="ViewModel.InsertDateTime" />
+
+		<hr />
+
+		<dtat-readonly-checkbox asp-for="ViewModel.IsProfilePublic" />
+		<dtat-readonly-checkbox asp-for="ViewModel.IsVisibleInContactUsPage" />
+		<dtat-readonly-input asp-for="ViewModel.TitleInContactUsPage" />
+
+		<hr />
+
+		<dtat-readonly-input asp-for="ViewModel.ImageUrl" dir="ltr" />
+		<dtat-readonly-input asp-for="ViewModel.CoverImageUrl" dir="ltr" />
+		<dtat-readonly-input asp-for="ViewModel.AdminDescription" />
+
+		<hr />
+
+		<dtat-readonly-input asp-for="ViewModel.Hits" />
+		<dtat-readonly-input asp-for="ViewModel.Score" />
+		<dtat-readonly-input asp-for="ViewModel.Ordering" />
+		<dtat-readonly-input asp-for="ViewModel.PostCount" />
+		<dtat-readonly-input asp-for="ViewModel.CommentCount" />
+		<dtat-readonly-input asp-for="ViewModel.MaxPostCountInProfilePage" />
+
+		<hr />
+
+		<dtat-readonly-input asp-for="ViewModel.UpdateDateTime" />
+		<dtat-readonly-input asp-for="ViewModel.LastLoginDateTime" />
+		<dtat-readonly-input asp-for="ViewModel.LastChangePasswordDateTime" />
+
+		<hr />
+
+		@(Html.Raw(Model.ViewModel.Description))
+
+	</fieldset>
+
+	<section-form-footer>
+		<a asp-page="Index">
+			@(Html.DtatGetLinkCaptionForList())
+		</a>
+		<a asp-page="Update" asp-route-id="@(Model.ViewModel.Id)">
+			@(Html.DtatGetLinkCaptionForUpdate())
+		</a>
+		<a asp-page="Delete" asp-route-id="@(Model.ViewModel.Id)">
+			@(Html.DtatGetLinkCaptionForDelete())
+		</a>
+	</section-form-footer>
+</section-form>

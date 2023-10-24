@@ -1,0 +1,30 @@
+﻿@page "/page/{culture?}/{name?}"
+
+@model Server.Pages.Features.Cms.PageModel
+
+@inject Services.Features.Common.LocalizedHomePageSettingService LocalizedHomePageSettingService
+
+@{
+	var localizedHomePageSetting =
+		await
+		LocalizedHomePageSettingService.GetInstanceAsync();
+
+	ViewData[Constants.ViewDataKeyName.LayoutId] = Model.ViewModel.LayoutId;
+
+	ViewData[Constants.ViewDataKeyName.PageAuthor] = localizedHomePageSetting.Author;
+
+	ViewData[Constants.ViewDataKeyName.PageTitle] = Model.ViewModel.Title;
+	ViewData[Constants.ViewDataKeyName.PageDescription] = Model.ViewModel.Description;
+
+	Layout =
+		$"Layouts/{Model.ViewModel.LayoutName}";
+}
+
+@if (string.IsNullOrWhiteSpace(value: Model.ViewModel.Body) == false)
+{
+	<div class="row mt-3">
+		<div class="col">
+			@(Html.Raw(Model.ViewModel.Body))
+		</div>
+	</div>
+}

@@ -1,0 +1,77 @@
+﻿@inject Infrastructure.Security.AuthenticatedUserService AuthenticatedUserService
+
+@{
+	if (AuthenticatedUserService.RoleCode <
+		Domain.Features.Identity.Enums.RoleEnum.Supervisor)
+	{
+		return;
+	}
+}
+
+<li class="nav-item dropdown">
+
+	<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+		@(Resources.DataDictionary.CommonSettings)
+	</a>
+
+	<ul class="dropdown-menu mt-0">
+
+		<li>
+			<a class="dropdown-item" asp-page="/Features/Common/Admin/Cultures/Index">
+				@(Resources.DataDictionary.Cultures)
+			</a>
+		</li>
+
+		<li>
+			<a class="dropdown-item" asp-page="/Features/Common/Admin/BaseTables/Index">
+				@(Resources.DataDictionary.BaseTables)
+			</a>
+		</li>
+
+		<li>
+			<a class="dropdown-item" asp-page="/Features/Common/Admin/ApplicationSettings/Update">
+				@(Resources.DataDictionary.ApplicationSetting)
+			</a>
+		</li>
+
+		<li>
+			<a class="dropdown-item" asp-page="/Features/Common/Admin/HtmlSettings/Update">
+				@(Resources.DataDictionary.HtmlSetting)
+			</a>
+		</li>
+
+		<li>
+			<a class="dropdown-item" asp-page="/Features/Common/FileManager/Index">
+				@(Resources.DataDictionary.FileManager)
+			</a>
+		</li>
+
+		<li>
+			<a class="dropdown-item" asp-page="/Features/Common/Admin/LocalizedApplicationSettings/Update">
+				@(Resources.DataDictionary.LocalizedApplicationSetting)
+			</a>
+		</li>
+
+		<li>
+			<a class="dropdown-item" asp-page="/Features/Common/Admin/LocalizedHomePageSettings/Update">
+				@(Resources.DataDictionary.LocalizedHomePageSetting)
+			</a>
+		</li>
+
+		<li><hr class="dropdown-divider" /></li>
+
+		<li>
+			<a class="dropdown-item" asp-page="/Features/Common/Admin/LocalizedMailSettings/Update">
+				@(Resources.DataDictionary.LocalizedMailSetting)
+			</a>
+		</li>
+
+		<li>
+			<a class="dropdown-item" asp-page="/Features/Common/Admin/LocalizedMailSettings/Test">
+				@(Resources.DataDictionary.TestOf + " " + Resources.DataDictionary.LocalizedMailSetting)
+			</a>
+		</li>
+
+	</ul>
+
+</li>

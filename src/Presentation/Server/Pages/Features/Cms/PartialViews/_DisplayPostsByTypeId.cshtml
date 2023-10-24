@@ -1,0 +1,103 @@
+﻿@model System.Guid?
+
+@inject Persistence.DatabaseContext DatabaseContext
+@inject Services.Features.Common.HtmlSettingService HtmlSettingService
+
+@using Microsoft.EntityFrameworkCore
+
+@{
+	if (Model is null)
+	{
+		return;
+	}
+
+	var htmlSetting =
+		await
+		HtmlSettingService.GetInstanceAsync();
+
+	var currentUICultureLcid = Domain.Features
+		.Common.CultureEnumHelper.GetCurrentUICultureLcid();
+
+	var currentCulture =
+		await
+		DatabaseContext.Cultures
+		.Where(current => current.Lcid == currentUICultureLcid)
+		.FirstOrDefaultAsync();
+
+	if (currentCulture == null)
+	{
+		return;
+	}
+
+	var posts =
+		DatabaseContext.Posts
+
+		.Where(current => current.TypeId == Model)
+		.Where(current => current.CultureId == currentCulture.Id)
+
+		.Where(current => current.IsActive)
+		.Where(current => current.IsDraft == false)
+		.Where(current => current.IsDeleted == false)
+
+		.Where(current => current.Type!.IsActive)
+		.Where(current => current.Category!.IsActive)
+
+		.Where(current => current.User!.IsDeleted == false)
+
+		// فکر می‌کنم که به دو دستور ذیل نیازی نیست
+		//.Where(current => current.User!.IsActive)
+		//.Where(current => current.User!.IsEmailAddressVerified)
+
+		.OrderByDescending(current => current.IsFeatured)
+		.ThenByDescending(current => current.UpdateDateTime)
+
+		.Select(current => new ViewModels.Pages
+			.Features.Cms.PartialViews.DisplayPostCardViewModel
+				{
+					//TextBackground
+
+					Id = current.Id,
+					Hits = current.Hits,
+					IsVerified = current.IsVerified,
+
+					Title = current.Title,
+					ImageUrl = current.ImageUrl,
+					Description = current.Description,
+
+					Username = current.User!.Username,
+
+					DisplayAuthor = false,
+					Author = current.Author,
+
+					DisplayTypeLink = false,
+					//TypeName = current.Type!.Name,
+					//TypeTitle = current.Type!.Title,
+
+					DisplayCategoryLink = true,
+					CategoryName = current.Category!.Name,
+					CategoryTitle = current.Category!.Title,
+
+					UpdateDateTime = current.UpdateDateTime,
+				})
+
+		.Skip(count: 0)
+		.Take(count: 48)
+
+		.ToList();
+
+	if (posts.Count == 0)
+	{
+		return;
+	}
+}
+
+<div class="@(htmlSetting.CardsContainerCssClasses)">
+
+	@for (var index = 0; index <= posts.Count - 1; index++)
+	{
+		var post = posts[index];
+
+		<partial name="Features/Cms/PartialViews/_DisplayPostCard" model="post" />
+	}
+
+</div>

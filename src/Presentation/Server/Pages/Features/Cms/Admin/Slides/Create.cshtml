@@ -1,0 +1,114 @@
+﻿@page
+@model Server.Pages.Features.Cms.Admin.Slides.CreateModel
+
+@{
+    var pageTitle =
+        $"{Resources.DataDictionary.CreateOf} {Resources.DataDictionary.Slide}";
+
+    ViewData[Constants.ViewDataKeyName.PageTitle] = pageTitle;
+}
+
+
+<div id="app">
+    <form method="post">
+
+        <section-form>
+            <fieldset>
+                <section-form-header>
+                    @(pageTitle)
+                </section-form-header>
+
+                <partial name="PartialViews/_DisplayPageMessages" />
+
+                <dtat-full-checkbox asp-for="ViewModel.IsActive" />
+
+                <dtat-full-input asp-for="ViewModel.Ordering" />
+
+                <dtat-full-input asp-for="ViewModel.Title" />
+
+                <dtat-full-input asp-for="ViewModel.Interval" />
+
+                <dtat-full-input asp-for="ViewModel.ImageUrl" dir="ltr" />
+
+                <dtat-full-input asp-for="ViewModel.NavigationUrl" dir="ltr" />
+                <div>
+                    <input type="file" v-on:change="uploadFile" ref="file">
+                    <button type="button" v-on:click="submitFile">Upload</button>
+                </div>
+                <br />
+                <dtat-full-checkbox asp-for="ViewModel.OpenUrlInNewWindow" />
+
+                <dtat-full-textarea asp-for="ViewModel.Caption" />
+
+                <dtat-full-textarea asp-for="ViewModel.Description" />
+            </fieldset>
+
+            <section-form-buttons>
+                <button-create />
+                <button-reset />
+            </section-form-buttons>
+
+            <section-form-footer>
+                <a asp-page="Index">
+                    @(Html.DtatGetLinkCaptionForList())
+                </a>
+            </section-form-footer>
+        </section-form>
+
+    </form>
+</div>
+
+
+
+<script>
+    const app = new Vue({
+
+        el: "#app",
+        data: {
+            images: null,
+            url: '',
+            link: '',
+        },
+
+        methods: {
+            uploadFile() {
+                this.Images = this.$refs.file.files[0];
+
+            },
+
+            submitFile() {
+                const formData = new FormData();
+                formData.append('file', this.Images);
+                const headers = { 'Content-Type': 'multipart/form-data' };
+
+                axios.post('https://localhost:6004/features/common/uploadimageaxios', formData, { headers })
+                .then(response => {
+
+                    console.clear()
+                    console.log(`[Then]`)
+                    console.log(response)
+
+                    this.url = response.data
+
+                        let urlbase = this.url.replace("wwwroot", "");
+                        document.getElementById("ViewModel_ImageUrl").value = urlbase;
+
+                        let linkbase = this.url.replace("wwwroot/", "https://localhost:6004/");
+                        document.getElementById("ViewModel_NavigationUrl").value = linkbase;
+                })
+                .catch(error => {
+
+                        console.clear()
+                        console.log(`[Error]`)
+                        console.error(error)
+
+                 })
+                    .finally(() => {
+
+                        console.log(`[Finally]`)
+
+                })
+            }
+        }
+    })
+</script>

@@ -1,0 +1,77 @@
+﻿@page
+@model Server.Pages.Features.Cms.User.Posts.DetailsModel
+
+@{
+	var pageTitle =
+		$"{Resources.DataDictionary.DetailsOf} {Resources.DataDictionary.Post}";
+
+	ViewData[Constants.ViewDataKeyName.PageTitle] = pageTitle;
+}
+
+<section-form>
+	<fieldset>
+		<section-form-header>
+			@(pageTitle)
+		</section-form-header>
+
+		<partial name="PartialViews/_DisplayPageMessages" />
+
+		<dtat-readonly-input asp-for="ViewModel.Id" />
+
+		<dtat-readonly-checkbox asp-for="ViewModel.IsDraft" />
+
+		<dtat-readonly-checkbox asp-for="ViewModel.IsActive" />
+
+		<dtat-readonly-checkbox asp-for="ViewModel.IsFeatured" />
+
+		<dtat-readonly-checkbox asp-for="ViewModel.IsCommentingEnabled" />
+
+		<dtat-readonly-checkbox asp-for="ViewModel.DisplayCommentsAfterVerification" />
+
+		<dtat-readonly-input asp-for="ViewModel.TypeName" />
+
+		<dtat-readonly-input asp-for="ViewModel.CategoryName" />
+
+		<dtat-readonly-input asp-for="ViewModel.Title" />
+
+		<dtat-readonly-input asp-for="ViewModel.Description" />
+
+		<dtat-readonly-input asp-for="ViewModel.Author" />
+
+		<dtat-readonly-input asp-for="ViewModel.MovieUrl" dir="ltr" />
+
+		<dtat-readonly-input asp-for="ViewModel.ImageUrl" dir="ltr" />
+
+		<dtat-readonly-input asp-for="ViewModel.AdminDescription" />
+
+		<dtat-readonly-input asp-for="ViewModel.Hits" />
+
+		<dtat-readonly-input asp-for="ViewModel.Score" />
+
+		<dtat-readonly-input asp-for="ViewModel.CommentCount" />
+
+		<dtat-readonly-input asp-for="ViewModel.InsertDateTime" />
+
+		<dtat-readonly-input asp-for="ViewModel.UpdateDateTime" />
+
+		<hr />
+
+		@(Html.Raw(Model.ViewModel.Introduction))
+
+		<hr />
+
+		@(Html.Raw(Model.ViewModel.Body))
+	</fieldset>
+
+	<section-form-footer>
+		<a asp-page="Index">
+			@(Html.DtatGetLinkCaptionForList())
+		</a>
+		<a asp-page="Update" asp-route-id="@(Model.ViewModel.Id)">
+			@(Html.DtatGetLinkCaptionForUpdate())
+		</a>
+		<a asp-page="Delete" asp-route-id="@(Model.ViewModel.Id)">
+			@(Html.DtatGetLinkCaptionForDelete())
+		</a>
+	</section-form-footer>
+</section-form>

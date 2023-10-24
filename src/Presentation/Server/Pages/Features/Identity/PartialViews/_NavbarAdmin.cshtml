@@ -1,0 +1,39 @@
+﻿@inject Infrastructure.Security.AuthenticatedUserService AuthenticatedUserService
+
+@{
+	if (AuthenticatedUserService.RoleCode <
+		Domain.Features.Identity.Enums.RoleEnum.Supervisor)
+	{
+		return;
+	}
+}
+
+<li class="nav-item dropdown">
+
+	<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+		@(Resources.DataDictionary.IdentityAdminSettings)
+	</a>
+
+	<ul class="dropdown-menu mt-0">
+
+		<li>
+			<a class="dropdown-item" asp-page="/Features/Identity/Admin/Users/Index">
+				@(Resources.DataDictionary.Users)
+			</a>
+		</li>
+
+		<li>
+			<a class="dropdown-item" asp-page="/Features/Identity/Admin/LoginLogs/Index">
+				@(Resources.DataDictionary.LoginLogs)
+			</a>
+		</li>
+
+		<li>
+			<a class="dropdown-item" asp-page="/Features/Identity/Admin/Users/DeleteUsers">
+				@(Resources.PageTitles.DeleteUsers)
+			</a>
+		</li>
+
+	</ul>
+
+</li>
